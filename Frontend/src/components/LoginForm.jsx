@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import authService from "../appWrite/auth";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +15,10 @@ const LoginForm = () => {
     try {
       const userSession = await authService.loginUser({ email, password });
       console.log("Logged in successfully!", userSession);
-      // Redirect user to dashboard or another page here if needed
+
+      // Redirect user to dashboard or another page
+      window.location.href = "/dashboard"; // Change the path as needed
+
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     }
