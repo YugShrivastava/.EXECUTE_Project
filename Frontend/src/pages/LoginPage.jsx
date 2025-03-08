@@ -1,4 +1,3 @@
-import ImageContainer from "../components/ImageContainer";
 import LoginForm from "../components/LoginForm";
 
 const LoginPage = () => {

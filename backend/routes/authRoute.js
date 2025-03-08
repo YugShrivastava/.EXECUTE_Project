@@ -18,6 +18,7 @@ Auth.post("/register", async (req, res) => {
 
 Auth.post("/login", async (req,res)=> {
     try {
+        console.log(req.body);
         const user = await User.find({...req.body})
 
         if(user.length == 0){
@@ -30,7 +31,7 @@ Auth.post("/login", async (req,res)=> {
         res.status(200).json({token: JWTtoken})
 
     } catch (error) {
-        
+        console.log(error);
     }
 })
 
