@@ -7,25 +7,25 @@ const eventRouter = express.Router();
 eventRouter.post("/create", async (req, res) => {
     try {
         const newEvent = new Event({ ...req.body });
-        const {organizer , registeredParticipants} = req.body
+        const { organizer, registeredParticipants } = req.body
 
         await newEvent.save().then(async savedEvent => {
-            if(savedEvent.organizer != undefined ){
+            if (savedEvent.organizer != undefined) {
                 const user = await User.findByIdAndUpdate(organizer,
-                    { $push: {createdEvents: savedEvent._id}} 
+                    { $push: { createdEvents: savedEvent._id } }
                 );
             }
 
-            if(savedEvent.registeredParticipants.length != undefined)
-            {   
+            if (savedEvent.registeredParticipants.length != undefined) {
                 savedEvent.registeredParticipants.map(async registered => {
                     const user = await User.findByIdAndUpdate(registeredParticipants.userId, {
-                        $push: { createdEvents: 
-                            savedEvent._id,
+                        $push: {
+                            createdEvents:
+                                savedEvent._id,
                         }
                     });
                     user?.createdEvents.push({
-                        userId : registered._id,
+                        userId: registered._id,
                         role: "organizer"
                     })
                 })
