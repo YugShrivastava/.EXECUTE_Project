@@ -23,6 +23,7 @@ const EventSchema = new mongoose.Schema({
     registeredParticipants: [{ 
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
         role: { type: String, enum: ["participant", "team leader"], required: true },
+        status: { type: String, enum: ["pending", "confirmed"], default: "pending" }
     }], 
 
     announcements: [
