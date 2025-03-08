@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../appWrite/auth";
@@ -19,7 +18,6 @@ const LoginForm = () => {
     try {
       const userSession = await authService.loginUser(formData);
       console.log("Logged in successfully!", userSession);
-
 
       if (userSession) {
         console.log("Navigating to /dashboard...");
