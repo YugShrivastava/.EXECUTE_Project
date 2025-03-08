@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import image from "../assets/game.png"
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -242,12 +243,7 @@ const SignupPage = () => {
  <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-black via-purple-900 to-black">
   <div className="h-full flex items-center justify-center">
     <div className="p-12 max-w-lg">
-      {/* Replace the purple circle with an image */}
-      <img 
-        src="path-to-your-image.jpg" 
-        alt="Community Image" 
-        className="w-24 h-24 rounded-full mb-8 opacity-80" 
-      />
+      <img src={image} alt="" className="w-25 h-25 rounded-20 mb-8 opacity-80"/>
       <h3 className="text-3xl font-bold text-white mb-4">Join our community</h3>
       <p className="text-purple-200 text-lg mb-6">Create an account to access exclusive features and connect with other members.</p>
       <div className="space-y-2">
@@ -271,5 +267,9 @@ const SignupPage = () => {
     </div>
   );
 };
+
+
+
+
 
 export default SignupPage;
