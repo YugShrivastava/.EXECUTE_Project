@@ -30,11 +30,14 @@ export class AuthService {
 
   async getCurrentUser() {
     try {
-      return this.account.get();
+      const user = await this.account.get();
+      return user;
     } catch (error) {
-      throw error;
+      console.warn("No active session found:", error.message);
+      return null; // Return null instead of throwing an error
     }
   }
+  
 
   async loginUser({ email, password }) {
     try {
