@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import Land from './pages/LandingPage';
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -24,7 +25,7 @@ const App = () => {
     };
 
     checkUser();
-  }, [user]);
+  }, []);
 
   if (loading) return <div className="text-white text-center mt-10">Loading...</div>;
 
@@ -33,7 +34,7 @@ const App = () => {
       <Route path="/" element={<Land />} />
       <Route path="/login" element={user !== null ? <Navigate to="/dashboard" /> : <LoginPage />} />
       <Route path="/signup" element={user !== null ? <Navigate to="/dashboard" /> : <SignupPage />} />
-      <Route path="/dashboard" element={user !== null ? <DashboardPage /> : <Navigate to="/login" />} />
+      <Route path="/dashboard" element={user !== null ? <Dashboard /> : <Navigate to="/login" />} />
     </Routes>
   );
 };
