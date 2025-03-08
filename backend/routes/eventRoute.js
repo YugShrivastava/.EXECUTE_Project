@@ -5,11 +5,12 @@ const eventRouter = express.Router();
 
 eventRouter.post("/create", async (req, res) => {
     try {
-        const { name, description, date } = req.body;
-        const newEvent = new Event({ name, description, date });
+        console.log(req.body)
+        const newEvent = new Event({ ...req.body });
         await newEvent.save();
         res.status(201).json({ message: "Event created successfully", event: newEvent });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: "Internal Server Error" });
     }
 });

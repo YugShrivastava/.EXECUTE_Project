@@ -3,6 +3,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const eventRouter = require("./routes/eventRoute");
+const router = require("./routes/userRoute");
 
 
 const app = express();
@@ -17,6 +18,7 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 app.use("/api/events", eventRouter);
+app.use("/api/users", router)
 
 
 app.get("/", (req, res) => {
