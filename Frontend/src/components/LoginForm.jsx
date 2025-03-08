@@ -1,24 +1,15 @@
-<<<<<<< HEAD
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-=======
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
->>>>>>> abd5866a1c36b1c8e79056fd5112e21221dc35f6
 import authService from "../appWrite/auth";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-<<<<<<< HEAD
-  const navigate = useNavigate(); // Initialize navigate
-=======
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
->>>>>>> abd5866a1c36b1c8e79056fd5112e21221dc35f6
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,16 +19,10 @@ const LoginForm = () => {
       const userSession = await authService.loginUser(formData);
       console.log("Logged in successfully!", userSession);
 
-<<<<<<< HEAD
-      // Redirect user to dashboard or another page
-      window.location.href = "/dashboard"; // Change the path as needed
-
-=======
       if (userSession) {
         console.log("Navigating to /dashboard...");
         navigate("/dashboard"); // ✅ Fix: Ensure navigation works
       }
->>>>>>> abd5866a1c36b1c8e79056fd5112e21221dc35f6
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
       console.error("Login Error:", err);
