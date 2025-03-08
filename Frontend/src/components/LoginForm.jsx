@@ -14,14 +14,14 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+     
     try {
       const userSession = await authService.loginUser(formData);
       console.log("Logged in successfully!", userSession);
 
       if (userSession) {
         console.log("Navigating to /dashboard...");
-        navigate("/dashboard"); // ✅ Fix: Ensure navigation works
+        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");

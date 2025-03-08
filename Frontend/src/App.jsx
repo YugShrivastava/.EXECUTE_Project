@@ -31,9 +31,9 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Land />} />
-      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
-      <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <SignupPage />} />
-      <Route path="/dashboard" element={user ? <DashboardPage /> : <Navigate to="/login" />} />
+      <Route path="/login" element={user !== null ? <Navigate to="/dashboard" /> : <LoginPage />} />
+      <Route path="/signup" element={user !== null ? <Navigate to="/dashboard" /> : <SignupPage />} />
+      <Route path="/dashboard" element={user !== null ? <DashboardPage /> : <Navigate to="/login" />} />
     </Routes>
   );
 };
