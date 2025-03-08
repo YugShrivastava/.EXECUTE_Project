@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import '../landing.css'
 
 const scrollToSection = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -10,213 +11,299 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const handleSubmit = () => {
     navigate('/login');
-  }
+  };
 
   return (
-    <div className="w-screen h-screen bg-black text-white overflow-hidden relative">
+    <div className="w-screen bg-black text-white font-sans overflow-x-hidden relative">
       
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full p-4 flex justify-between items-center bg-transparent backdrop-blur-md z-50 px-8">
-        <div className="text-2xl font-bold text-purple-400">Festify</div>
-        <div className="flex gap-6 text-lg font-medium">
+      {/* Navigation - Transparent */}
+      <nav className="fixed top-0 left-0 w-full py-6 px-8 flex justify-between items-center bg-transparent backdrop-blur-md z-50">
+        <motion.div
+          className="text-4xl font-extrabold text-purple-400 tracking-tight"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Festify
+        </motion.div>
+        <div className="flex gap-10 text-lg font-semibold">
           {["home", "about", "features", "contact"].map((section) => (
-            <button
+            <motion.button
               key={section}
               onClick={() => scrollToSection(section)}
-              className="text-white hover:text-purple-400 transition px-3 py-1 rounded-md hover:bg-purple-900/30"
+              className="text-gray-200 hover:text-purple-300 transition-all duration-300 px-4 py-2 rounded-full hover:bg-purple-900/30 hover:shadow-md"
+              whileHover={{ scale: 1.1 }}
             >
               {section.charAt(0).toUpperCase() + section.slice(1)}
-            </button>
+            </motion.button>
           ))}
         </div>
       </nav>
 
       {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-full bg-gradient-to-r from-black to-purple-900/40 opacity-80 animate-gradient" />
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(50)].map((_, i) => (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute w-full h-full bg-gradient-to-br from-black via-purple-950/70 to-purple-900/50 animate-gradient" />
+        <div className="absolute inset-0">
+          {[...Array(60)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-purple-400 rounded-full opacity-50 animate-float"
+              className="absolute w-2 h-2 bg-purple-500 rounded-full opacity-50 animate-pulse"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 3}s`,
               }}
             />
           ))}
         </div>
       </div>
 
-      {/* Main Scroll Container */}
-      <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth scrollbar-hide relative">
-        
-        {/* Home Section - Left-centric layout */}
-        <section
-          id="home"
-          className="snap-start w-full min-h-screen flex flex-col justify-center items-start px-16 md:px-24 relative"
+      {/* Home Section - Left Aligned, Full Width */}
+      <section
+        id="home"
+        className="min-h-screen w-full flex items-center justify-start relative pt-24 px-8 md:px-16"
+      >
+        <motion.div
+          className="max-w-lg"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
         >
-          <div className="max-w-xl">
-            <motion.h1
-              className="text-5xl md:text-6xl font-extrabold mb-4 text-purple-400"
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+          <h1 className="text-5xl md:text-7xl font-extrabold text-purple-400 tracking-tight leading-tight mb-6 drop-shadow-lg">
+            Festify
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
+            The Ultimate College Fest Platform—Simplify Management, Amplify Engagement.
+          </p>
+          <motion.button
+            className="bg-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSubmit}
+          >
+            Get Started
+          </motion.button>
+        </motion.div>
+      </section>
+
+      {/* About Section - Right Aligned, Gradient Background */}
+      <section
+        id="about"
+        className="min-h-screen w-full flex items-center justify-end relative px-8 md:px-16 bg-transparent"
+      >
+        <motion.div
+          className="max-w-lg text-right"
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-8 tracking-tight drop-shadow-lg">
+            About Us
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+            Festify redefines college fest management with a seamless, all-in-one platform. We tackle the chaos of registrations, scheduling, and coordination, turning challenges into opportunities.
+          </p>
+          <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            Our sleek interface, powerful tools, and interactive features connect organizers and attendees like never before. From cultural spectacles to tech showdowns, Festify ensures your event shines.
+          </p>
+        </motion.div>
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-purple-900/20 to-transparent" />
+      </section>
+
+      {/* Features Section - Two Rows of Taller Sliding Cards */}
+      <section
+        id="features"
+        className="min-h-screen w-full flex flex-col items-center justify-center relative px-8 md:px-16"
+      >
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold text-purple-400 text-center mb-12 tracking-tight drop-shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          Features
+        </motion.h2>
+        <div className="w-full space-y-12">
+          {/* Top Row: Right to Left */}
+          <div className="w-full overflow-hidden">
+            <motion.div
+              className="flex gap-8 animate-slide-right-to-left"
+              initial={{ x: "100%" }}
+              animate={{ x: "-100%" }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             >
-              Festify: The Ultimate College Fest Platform
-            </motion.h1>
-            <motion.p
-              className="text-lg md:text-xl font-medium text-gray-300 mb-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              {[
+                {
+                  title: "Event Creation",
+                  desc: "Craft and launch events effortlessly with customizable options and streamlined workflows.",
+                },
+                {
+                  title: "Registration Management",
+                  desc: "Streamline sign-ups and track participants in real-time with automated tools.",
+                },
+                {
+                  title: "Live Updates",
+                  desc: "Keep everyone informed with instant notifications and real-time event changes.",
+                },
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
+                </motion.div>
+              ))}
+              {/* Duplicate for seamless looping */}
+              {[
+                {
+                  title: "Event Creation",
+                  desc: "Craft and launch events effortlessly with customizable options and streamlined workflows.",
+                },
+                {
+                  title: "Registration Management",
+                  desc: "Streamline sign-ups and track participants in real-time with automated tools.",
+                },
+                {
+                  title: "Live Updates",
+                  desc: "Keep everyone informed with instant notifications and real-time event changes.",
+                },
+              ].map((feature, index) => (
+                <motion.div
+                  key={`top-duplicate-${index}`}
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+          {/* Bottom Row: Left to Right */}
+          <div className="w-full overflow-hidden">
+            <motion.div
+              className="flex gap-8 animate-slide-left-to-right"
+              initial={{ x: "-100%" }}
+              animate={{ x: "100%" }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             >
-              Simplify Event Management & Engagement.
-            </motion.p>
-            <motion.button
-              className="bg-purple-500 px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-purple-600 transition text-white"
-              whileHover={{ scale: 1.05 }}
-              onClick={handleSubmit}
-            >
-              Get Started
-            </motion.button>
+              {[
+                {
+                  title: "Interactive Tools",
+                  desc: "Engage attendees with interactive maps, personalized schedules, and messaging features.",
+                },
+                {
+                  title: "Analytics Dashboard",
+                  desc: "Analyze event success with detailed insights and performance metrics.",
+                },
+                {
+                  title: "Team Coordination",
+                  desc: "Manage organizers and volunteers seamlessly with collaborative tools.",
+                },
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
+                </motion.div>
+              ))}
+              {/* Duplicate for seamless looping */}
+              {[
+                {
+                  title: "Interactive Tools",
+                  desc: "Engage attendees with interactive maps, personalized schedules, and messaging features.",
+                },
+                {
+                  title: "Analytics Dashboard",
+                  desc: "Analyze event success with detailed insights and performance metrics.",
+                },
+                {
+                  title: "Team Coordination",
+                  desc: "Manage organizers and volunteers seamlessly with collaborative tools.",
+                },
+              ].map((feature, index) => (
+                <motion.div
+                  key={`bottom-duplicate-${index}`}
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* About Section - Left-centric layout */}
-        <section
-          id="about"
-          className="snap-start w-full min-h-screen flex flex-col justify-center items-start px-16 md:px-24"
+      {/* Contact Section - Enhanced Form */}
+      <section
+        id="contact"
+        className="min-h-screen w-full flex items-center justify-center relative bg-gradient-to-br from-black via-purple-950/70 to-purple-900/50 px-8 md:px-16"
+      >
+        <motion.div
+          className="max-w-lg w-full bg-gradient-to-br from-purple-950/20 to-black/90 p-10 rounded-3xl shadow-2xl border border-purple-700/50 hover:border-purple-600/70 transition-all duration-300"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">
-              About Us
-            </h2>
-            <p className="text-gray-300 text-lg md:text-xl mb-6">
-              Festify is designed to revolutionize college fest management by
-              providing a seamless, all-in-one platform. We understand the
-              challenges faced by organizers and participants alike, from handling
-              registrations to ensuring smooth event coordination.
-            </p>
-            <p className="text-gray-300 text-lg md:text-xl">
-              With an intuitive interface, robust event management tools, and
-              interactive engagement features, we bridge the gap between
-              organizers and attendees. Whether you're planning a cultural
-              extravaganza, a tech fest, or a sports tournament, Festify is the
-              perfect partner to make your event a grand success.
-            </p>
-          </div>
-        </section>
-
-        {/* Features Section - Left-centric layout */}
-        <section
-          id="features"
-          className="snap-start w-full min-h-screen flex flex-col justify-center items-start px-16 md:px-24 relative"
-        >
-          <div className="max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-6">
-              Features
-            </h2>
-            
-            <div className="space-y-8">
-              <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-700/30 hover:border-purple-500/50 transition">
-                <h3 className="text-2xl font-bold text-white mb-2">Event Management</h3>
-                <p className="text-gray-300">
-                  Create, schedule, and manage multiple events with ease. Control registrations, 
-                  track attendance, and organize venues all from a single dashboard.
-                </p>
-              </div>
-              
-              <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-700/30 hover:border-purple-500/50 transition">
-                <h3 className="text-2xl font-bold text-white mb-2">Participant Engagement</h3>
-                <p className="text-gray-300">
-                  Keep attendees engaged with real-time updates, interactive maps, 
-                  personalized schedules, and in-app messaging.
-                </p>
-              </div>
-              
-              <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-700/30 hover:border-purple-500/50 transition">
-                <h3 className="text-2xl font-bold text-white mb-2">Analytics & Insights</h3>
-                <p className="text-gray-300">
-                  Gain valuable insights with comprehensive analytics on attendance, 
-                  engagement, and participant demographics to improve future events.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Background particles for features section */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-purple-400 rounded-full opacity-40 animate-float"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`
-                }}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Contact Section - Left-centric layout */}
-        <section
-          id="contact"
-          className="snap-start w-full min-h-screen flex flex-col justify-center items-start bg-gradient-to-r from-black to-purple-900/40 px-16 md:px-24 relative"
-        >
-          <div className="max-w-xl z-10">
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">
-              Contact Us
-            </h2>
-
-            <form className="w-full">
+          <h2 className="text-4xl md:text-5xl font-bold text-purple-400 text-center mb-10 tracking-tight drop-shadow-lg">
+            Contact Us
+          </h2>
+          <form className="space-y-8">
+            <div>
+              <label className="block text-gray-200 text-sm font-semibold mb-2">Your Name</label>
               <input
                 type="text"
-                placeholder="Your Name"
-                className="w-full p-3 mb-4 bg-black/60 text-white border border-purple-700 rounded-md focus:ring-2 focus:ring-purple-400"
+                placeholder="Enter your name"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
               />
+            </div>
+            <div>
+              <label className="block text-gray-200 text-sm font-semibold mb-2">Your Email</label>
               <input
                 type="email"
-                placeholder="Your Email"
-                className="w-full p-3 mb-4 bg-black/60 text-white border border-purple-700 rounded-md focus:ring-2 focus:ring-purple-400"
+                placeholder="Enter your email"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
               />
+            </div>
+            <div>
+              <label className="block text-gray-200 text-sm font-semibold mb-2">Your Message</label>
               <textarea
-                placeholder="Your Message"
-                rows="4"
-                className="w-full p-3 mb-4 bg-black/60 text-white border border-purple-700 rounded-md focus:ring-2 focus:ring-purple-400"
+                placeholder="Enter your message"
+                rows="6"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
               />
-              <button className="bg-purple-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-600 transition w-full">
-                Send Message
-              </button>
-            </form>
-          </div>
+            </div>
+            <motion.button
+              type="submit"
+              className="w-full bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Send Message
+            </motion.button>
+          </form>
+        </motion.div>
+      </section>
 
-          {/* Background particles */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(30)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-purple-400 rounded-full opacity-60 animate-float"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`
-                }}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="snap-start w-full h-20 bg-black flex justify-center items-center px-6 md:px-12 border-t border-purple-900/30">
-          <p className="text-gray-400 text-center">
-            &copy; 2025 Festify | All Rights Reserved
+      {/* Footer - Full Width */}
+      <footer className="w-full py-8 bg-black/90 border-t border-purple-900/50 z-10">
+        <div className="container mx-auto px-8 text-center">
+          <p className="text-gray-400 text-sm font-medium">
+            © 2025 Festify | All Rights Reserved
           </p>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </div>
   );
 };

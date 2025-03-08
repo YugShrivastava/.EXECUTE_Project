@@ -7,15 +7,16 @@ import DashboardPage from "./pages/DashboardPage";
 import Land from './pages/LandingPage';
 import Dashboard from "./pages/Dashboard";
 import OrganizerDashboard from "./components/OrganizerDashboard";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = () => {
       setLoading(true);
-      setUser(() => localStorage.getItem('authToken') || null);
+      setUser(() => localStorage.getItem('authToken') || '');
       setLoading(false);
     };
   
@@ -27,10 +28,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Land />} />
-      <Route path="/login" element={user !== null ? <Navigate to="/dashboard" /> : <LoginPage />} />
-      <Route path="/signup" element={user !== null ? <Navigate to="/dashboard" /> : <SignupPage />} />
-      <Route path="/dashboard" element={user !== null ? <Dashboard /> : <Navigate to="/login" />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage /> } />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/org-dashboard" element={<OrganizerDashboard />} />
     </Routes>
   );
