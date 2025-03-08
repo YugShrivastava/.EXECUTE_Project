@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import Land from './pages/LandingPage';
 import Dashboard from "./pages/Dashboard";
+import OrganizerDashboard from "./components/OrganizerDashboard";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -35,6 +36,7 @@ const App = () => {
       <Route path="/login" element={user !== null ? <Navigate to="/dashboard" /> : <LoginPage />} />
       <Route path="/signup" element={user !== null ? <Navigate to="/dashboard" /> : <SignupPage />} />
       <Route path="/dashboard" element={user !== null ? <Dashboard /> : <Navigate to="/login" />} />
+      <Route path="/org-dashboard" element={<OrganizerDashboard />} />
     </Routes>
   );
 };

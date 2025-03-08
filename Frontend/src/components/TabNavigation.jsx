@@ -1,8 +1,8 @@
-// components/TabNavigation.jsx
+// frontend/src/components/TabNavigation.jsx
 import React from "react";
 import { motion } from "framer-motion";
 
-const TabNavigation = ({ activeTab, setActiveTab }) => (
+const TabNavigation = ({ activeTab, setActiveTab, tabs = ["overview", "events", "quizzes", "notifications"] }) => (
   <motion.div
     className="flex justify-center mb-8"
     initial={{ opacity: 0 }}
@@ -10,7 +10,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => (
     transition={{ duration: 0.5 }}
   >
     <nav className="inline-flex bg-gray-900 rounded-full p-2 space-x-4 shadow-neumorphic">
-      {["overview", "events", "quizzes", "notifications"].map((tab) => (
+      {tabs.map((tab) => (
         <motion.button
           key={tab}
           onClick={() => setActiveTab(tab)}
@@ -22,7 +22,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => (
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {tab}
+          {tab.replace(/([A-Z])/g, " $1").trim()} {/* Convert camelCase to readable text */}
         </motion.button>
       ))}
     </nav>
