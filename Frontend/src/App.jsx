@@ -13,20 +13,15 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const loggedInUser = await authService.getCurrentUser();
-        console.log("Current User:", loggedInUser);
-        setUser(loggedInUser);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+    const checkUser = () => {
+      setLoading(true);
+      setUser(() => localStorage.getItem('authToken') || null);
+      setLoading(false);
     };
-
+  
     checkUser();
   }, []);
+  
 
   if (loading) return <div className="text-white text-center mt-10">Loading...</div>;
 
