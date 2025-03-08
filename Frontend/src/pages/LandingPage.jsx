@@ -14,7 +14,7 @@ const handleSubmit = () => {
 
   return (
     <div className="w-screen h-screen bg-[#0D0D0D] text-[#F1F1F1] overflow-hidden relative">
-      {/* Transparent Navbar */}
+      
       <nav className="fixed top-0 left-0 w-full p-4 flex justify-between items-center bg-transparent backdrop-blur-md z-50 px-8">
         <div className="text-2xl font-bold text-[#E94560]">Festify</div>
         <div className="flex gap-6 text-lg font-medium">
@@ -30,7 +30,7 @@ const handleSubmit = () => {
         </div>
       </nav>
 
-      {/* Animated Background */}
+      
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute w-full h-full bg-gradient-to-r from-[#1E1E1E] to-[#292929] opacity-80 animate-gradient" />
         <div className="absolute inset-0 pointer-events-none">
@@ -48,9 +48,9 @@ const handleSubmit = () => {
         </div>
       </div>
 
-      {/* Full-page scrolling container */}
+      
       <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth scrollbar-hide relative">
-        {/* Hero Section */}
+        
         <section
           id="home"
           className="snap-start w-full min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 relative"
@@ -80,7 +80,7 @@ const handleSubmit = () => {
           </motion.button>
         </section>
 
-        {/* About Us Section */}
+       
         <section
           id="about"
           className="snap-start w-full min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12"
@@ -103,39 +103,39 @@ const handleSubmit = () => {
           </p>
         </section>
 
-        {/* Features Section */}
+       
         <section
-          id="features"
-          className="snap-start w-full min-h-screen flex flex-col justify-center items-center px-6 md:px-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#E94560] mb-6">
-            Key Features
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl">
-            {[
-              "Event Listings",
-              "Registration System",
-              "Interactive Quizzes",
-              "Real-time Notifications",
-              "Automated Scheduling",
-              "Analytics Dashboard"
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className="p-6 bg-[#292929] rounded-lg shadow-lg hover:shadow-xl transition text-white"
-                whileHover={{ scale: 1.05 }}
-              >
-                <h3 className="text-xl font-semibold text-center">{feature}</h3>
-                <p className="mt-2 text-gray-400 text-center">
-                  {feature} to enhance participant engagement and simplify event
-                  management.
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+  id="features"
+  className="snap-start w-full min-h-screen flex flex-col justify-center items-center px-6 md:px-12"
+>
+  <h2 className="text-4xl md:text-5xl font-bold text-[#E94560] mb-6">
+    Key Features
+  </h2>
 
-        {/* Contact Us Section */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl">
+    {[
+      { title: "Event Listings", icon: "📅", desc: "Easily browse and discover upcoming events." },
+      { title: "Registration System", icon: "📝", desc: "Seamless participant registration and management." },
+      { title: "Interactive Quizzes", icon: "🎯", desc: "Engage attendees with fun and informative quizzes." },
+      { title: "Real-time Notifications", icon: "🔔", desc: "Stay updated with instant event alerts." },
+      { title: "Automated Scheduling", icon: "⏳", desc: "Hassle-free event scheduling and time management." },
+      { title: "Analytics Dashboard", icon: "📊", desc: "Gain insights with real-time event analytics." }
+    ].map((feature, index) => (
+      <motion.div
+        key={index}
+        className="p-6 bg-[#292929] rounded-lg shadow-lg hover:shadow-2xl transition transform hover:scale-105 text-white flex flex-col items-center"
+        whileHover={{ scale: 1.05 }}
+      >
+        <div className="text-4xl">{feature.icon}</div>
+        <h3 className="text-xl font-semibold mt-4">{feature.title}</h3>
+        <p className="mt-2 text-gray-400 text-center">{feature.desc}</p>
+      </motion.div>
+    ))}
+  </div>
+</section>
+
+
+       
         <section
           id="contact"
           className="snap-start w-full min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-[#292929] to-[#121212] px-6 md:px-12 relative"
@@ -181,7 +181,7 @@ const handleSubmit = () => {
           </form>
         </section>
 
-        {/* Footer */}
+        
         <footer className="snap-start w-full h-20 bg-[#121212] flex justify-center items-center px-6 md:px-12">
           <p className="text-gray-400 text-center">
             &copy; 2025 Festify | All Rights Reserved
