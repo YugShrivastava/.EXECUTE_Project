@@ -1,12 +1,32 @@
 const express = require('express');
 const Event = require('../models/eventModel');
+const User = require('../models/userModel');
 const eventRouter = express.Router();
 
 
 eventRouter.post("/create", async (req, res) => {
     try {
         const newEvent = new Event({ ...req.body });
-        await newEvent.save();
+
+        await newEvent.save().then(async savedEvent => {
+            if(savedUser.organizer != undefined ){
+                const user = await User.findById(savedUser.organizer);
+                user.createdEvents.push(savedEvent._id)
+                 await user.save({ new: true, validateModifiedOnly: true });
+            }
+
+            if(saveduser.registeredParticipants.length != undefined)
+            {   
+                registeredParticipants.map(async registered => {
+                    const user = await User.findById(registered.userId);
+                    user.createdEvents.push({
+                        userId : registered._id,
+                        role: "organizer"
+                    })
+                    await user.save({ new: true, validateModifiedOnly: true });
+                })
+            }
+        })
         res.status(201).json({ message: "Event created successfully", event: newEvent });
     } catch (err) {
         console.log(err)
