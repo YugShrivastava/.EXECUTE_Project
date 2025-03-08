@@ -32,11 +32,6 @@ const userSchema = new mongoose.Schema({
             type: String,
             enum: ["participant", "team_leader"]
         },
-        status: {
-            type: String,
-            enum: ["registered", "pending", "canceled"],
-            default: "registered"
-        }
     }],
     createdEvents: [{
         type: mongoose.Schema.Types.ObjectId,
