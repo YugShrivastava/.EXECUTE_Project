@@ -5,7 +5,6 @@ const eventRouter = express.Router();
 
 eventRouter.post("/create", async (req, res) => {
     try {
-        console.log(req.body)
         const newEvent = new Event({ ...req.body });
         await newEvent.save();
         res.status(201).json({ message: "Event created successfully", event: newEvent });
