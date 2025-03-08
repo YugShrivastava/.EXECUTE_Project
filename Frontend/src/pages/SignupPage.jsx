@@ -3,8 +3,7 @@ import SignupForm from "../components/SignupForm";
 
 const SignupPage = () => {
   return (
-    <div className="flex h-screen">
-      <ImageContainer />
+    <div className="flex h-screen w-full">
       <SignupForm />
     </div>
   );

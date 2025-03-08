@@ -28,9 +28,9 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Land />} />
-      <Route path="/login" element={user !== null ? <Navigate to="/dashboard" /> : <LoginPage />} />
-      <Route path="/signup" element={user !== null ? <Navigate to="/dashboard" /> : <SignupPage />} />
-      <Route path="/dashboard" element={user !== null ? <Dashboard /> : <Navigate to="/login" />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/dashboard" element={ <Dashboard />} />
       <Route path="/org-dashboard" element={<OrganizerDashboard />} />
     </Routes>
   );
