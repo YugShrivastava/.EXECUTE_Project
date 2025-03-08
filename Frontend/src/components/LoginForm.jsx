@@ -1,23 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authService from "../appWrite/auth";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const userSession = await authService.loginUser({ email, password });
+      const userSession = await authService.loginUser(formData);
       console.log("Logged in successfully!", userSession);
-      // Redirect user to dashboard or another page here if needed
+
+      if (userSession) {
+        console.log("Navigating to /dashboard...");
+        navigate("/dashboard"); // ✅ Fix: Ensure navigation works
+      }
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
+      console.error("Login Error:", err);
     }
   };
+
+  useEffect(() => {
+    console.log('Hellow')
+  }, [])
 
   return (
     <div className="w-1/2 h-screen flex items-center justify-center bg-gray-800 text-white">
@@ -30,10 +44,11 @@ const LoginForm = () => {
           <label className="block mb-2">Email</label>
           <input
             type="email"
+            name="email"
             placeholder="Enter your email"
             className="w-full p-3 rounded bg-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             required
           />
         </div>
@@ -42,10 +57,11 @@ const LoginForm = () => {
           <label className="block mb-2">Password</label>
           <input
             type="password"
+            name="password"
             placeholder="Enter your password"
             className="w-full p-3 rounded bg-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
