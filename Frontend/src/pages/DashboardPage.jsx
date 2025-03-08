@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import authService from "../appWrite/auth";
+import EventPage from "./EventPage";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const DashboardPage = () => {
       <h1 className="text-3xl font-bold">Dashboard</h1>
       <p className="mt-2">You are logged in.</p>
       <button onClick={handleLogout} className="mt-6 bg-red-500 px-4 py-2 rounded">Logout</button>
+      <EventPage/>
     </div>
   );
 };
