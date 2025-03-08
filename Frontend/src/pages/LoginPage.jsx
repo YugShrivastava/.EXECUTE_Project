@@ -6,7 +6,6 @@ const LoginPage = () => {
   return (
     <div className="flex h-screen">
       <LoginForm />
-      <ImageContainer />
     </div>
   );
 };
