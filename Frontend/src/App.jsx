@@ -4,7 +4,7 @@ import authService from "./appWrite/auth";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
-import LandingPage from "./pages/LandingPage";
+import Land from './pages/LandingPage';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -30,7 +30,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<Land />} />
       <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
       <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <SignupPage />} />
       <Route path="/dashboard" element={user ? <DashboardPage /> : <Navigate to="/login" />} />
