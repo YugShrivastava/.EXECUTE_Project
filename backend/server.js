@@ -4,6 +4,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const eventRouter = require("./routes/eventRoute");
 const router = require("./routes/userRoute");
+const Auth = require("./routes/authRoute");
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/events", eventRouter);
 app.use("/api/users", router)
+app.use("/api/auth", Auth)
 
 
 app.get("/", (req, res) => {
