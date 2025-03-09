@@ -10,6 +10,7 @@ import QuizCreationForm from "../components/QuizCreationForm";
 import ModerationPanel from "../components/ModerationPanel";
 import AnalyticsPlaceholder from "../components/AnalyticsPlaceholder";
 import { Calendar, Users, Award, AlertTriangle, User } from "lucide-react";
+import Feedback from "../pages/Feedback";
 
 const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
   const [organizedEvents, setOrganizedEvents] = useState([]);
@@ -197,6 +198,7 @@ const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
             "createQuiz",
             "moderation",
             "analytics",
+            "feedbacks"
           ]}
         />
         <AnimatePresence mode="wait">
@@ -224,6 +226,7 @@ const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
               <ModerationPanel events={organizedEvents} />
             )}
             {activeTab === "analytics" && <AnalyticsPlaceholder />}
+            {activeTab === "feedback" && <Feedback  />}
           </motion.div>
         </AnimatePresence>
       </main>

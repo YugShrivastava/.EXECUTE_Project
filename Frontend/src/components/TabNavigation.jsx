@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const TabNavigation = ({ activeTab, setActiveTab, tabs = ["overview", "events", "quizzes", "notifications"] }) => (
+const TabNavigation = ({ activeTab, setActiveTab, tabs = ["overview", "events", "quizzes", "notifications", "feedback"] }) => (
   <motion.div
     className="flex justify-center mb-8"
     initial={{ opacity: 0 }}

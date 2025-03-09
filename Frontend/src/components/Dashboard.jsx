@@ -6,8 +6,9 @@ import TabNavigation from "./TabNavigation";
 import EventList from "./EventList";
 import NotificationList from "./NotificationList";
 import QuizList from "./QuizList";
+import Feedback from "../pages/Feedback";
 import LoadingSpinner from "./LoadingSpinner";
-import { CheckSquare, Calendar, Award, Bell } from "lucide-react";
+import { CheckSquare, Calendar, Award, Bell, MessageSquare } from "lucide-react";
 
 const Dashboard = ({ user }) => {
   const [allEvents, setAllEvents] = useState([]);
@@ -135,40 +136,59 @@ const Dashboard = ({ user }) => {
     return <LoadingSpinner />;
   }
 
+  // Add the new Feedback icon to the stats cards
+  const statCards = [
+    {
+      icon: CheckSquare,
+      title: "Registered",
+      value: registeredEvents.length,
+      color: "hover:shadow-purple-500/20",
+    },
+    {
+      icon: Calendar,
+      title: "Upcoming",
+      value: upcomingEvents.length,
+      color: "hover:shadow-purple-600/20",
+    },
+    {
+      icon: Award,
+      title: "Quiz Scores",
+      value: quizScores.length,
+      color: "hover:shadow-purple-700/20",
+    },
+    {
+      icon: Bell,
+      title: "Alerts",
+      value: notifications.length,
+      color: "hover:shadow-purple-800/20",
+    },
+    {
+      icon: MessageSquare,
+      title: "Feedbacks",
+      value: 0, // This would be updated with actual feedback count when available
+      color: "hover:shadow-purple-900/20",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       <DashboardHeader name={user.name} unreadCount={unreadCount} />
       <main className="container mx-auto px-6 py-10">
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, staggerChildren: 0.1 }}
         >
-          <StatCard
-            icon={CheckSquare}
-            title="Registered"
-            value={registeredEvents.length}
-            color="hover:shadow-purple-500/20"
-          />
-          <StatCard
-            icon={Calendar}
-            title="Upcoming"
-            value={upcomingEvents.length}
-            color="hover:shadow-purple-600/20"
-          />
-          <StatCard
-            icon={Award}
-            title="Quiz Scores"
-            value={quizScores.length}
-            color="hover:shadow-purple-700/20"
-          />
-          <StatCard
-            icon={Bell}
-            title="Alerts"
-            value={notifications.length}
-            color="hover:shadow-purple-800/20"
-          />
+          {statCards.map((card, index) => (
+            <StatCard
+              key={index}
+              icon={card.icon}
+              title={card.title}
+              value={card.value}
+              color={card.color}
+            />
+          ))}
         </motion.div>
 
         <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -209,10 +229,11 @@ const Dashboard = ({ user }) => {
                 title="All Alerts"
               />
             )}
+            {activeTab === "feedback" && <Feedback  />}
           </motion.div>
         </AnimatePresence>
       </main>
-      <footer className="bg-gray-900 border-t border-gray-800 absolute bottom-0 w-full">
+      <footer className="bg-gray-900 border-t border-gray-800 relative bottom-0 w-full">
         <div className="container mx-auto px-6 py-6">
           <p className="text-center text-gray-400 text-sm">
             © 2025 Festify - Powered by the College Management. All rights reserved.
