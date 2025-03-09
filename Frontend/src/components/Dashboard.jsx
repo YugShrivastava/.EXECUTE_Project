@@ -215,7 +215,7 @@ const Dashboard = ({ user }) => {
       <footer className="bg-gray-900 border-t border-gray-800 absolute bottom-0 w-full">
         <div className="container mx-auto px-6 py-6">
           <p className="text-center text-gray-400 text-sm">
-            © 2025 FestX Neon - Powered by the Night. All rights reserved.
+            © 2025 Festify - Powered by the College Management. All rights reserved.
           </p>
         </div>
       </footer>

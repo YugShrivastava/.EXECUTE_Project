@@ -145,7 +145,7 @@ const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
 
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col">
-      <DashboardHeader unreadCount={unreadCount} />
+      <DashboardHeader unreadCount={unreadCount} name = {user.name} />
       <main className="container mx-auto px-6 py-10 flex-1 overflow-y-auto">
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
@@ -230,7 +230,7 @@ const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
       <footer className="bg-gray-900 border-t border-gray-800">
         <div className="container mx-auto px-6 py-6">
           <p className="text-center text-gray-400 text-sm">
-            © 2025 FestX Neon - Powered by the Night. All rights reserved.
+            © 2025 Festify - Powered by the College Management. All rights reserved.
           </p>
         </div>
       </footer>
