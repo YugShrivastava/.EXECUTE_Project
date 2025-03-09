@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeader from "../components/DashboardHeader";
-import StatCard from "../components/StatCard";
-import TabNavigation from "../components/TabNavigation";
-import EventList from "../components/EventList";
-import NotificationList from "../components/NotificationList";
-import QuizList from "../components/QuizList";
-import LoadingSpinner from "../components/LoadingSpinner";
-import {
-  CheckSquare,
-  Calendar,
-  Award,
-  Bell,
-} from "lucide-react";
+import DashboardHeader from "./DashboardHeader";
+import StatCard from "./StatCard";
+import TabNavigation from "./TabNavigation";
+import EventList from "./EventList";
+import NotificationList from "./NotificationList";
+import QuizList from "./QuizList";
+import LoadingSpinner from "./LoadingSpinner";
+import { CheckSquare, Calendar, Award, Bell } from "lucide-react";
 
 const Dashboard = ({ user }) => {
   const [allEvents, setAllEvents] = useState([]);
@@ -30,13 +25,16 @@ const Dashboard = ({ user }) => {
         const userId = user._id; // Assuming user._id is available; adjust if necessary
 
         // Fetch Dashboard Data
-        const dashboardResponse = await fetch(`http://localhost:3000/dashboard/${userId}`, {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const dashboardResponse = await fetch(
+          `http://localhost:3000/api/users/dashboard/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!dashboardResponse.ok) {
           throw new Error("Failed to fetch dashboard data");
@@ -46,18 +44,21 @@ const Dashboard = ({ user }) => {
         console.log("Dashboard Data:", dashboardData);
 
         // Set Registered Events
-        setRegisteredEvents(dashboardData.registeredEvents.map(event => ({
-          id: event.id,
-          name: event.name,
-          status: event.status,
-          teamName: event.role === "team_leader" ? "Team Leader" : "Participant",
-        })));
+        setRegisteredEvents(
+          dashboardData.registeredEvents.map((event) => ({
+            id: event.id,
+            name: event.name,
+            status: event.status,
+            teamName:
+              event.role === "team_leader" ? "Team Leader" : "Participant",
+          }))
+        );
 
         // Fetch All Events for Upcoming Events
         const eventsResponse = await fetch("http://localhost:3000/api/events", {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
@@ -73,8 +74,8 @@ const Dashboard = ({ user }) => {
         const currentDate = new Date();
         setUpcomingEvents(
           eventsData
-            .filter(event => new Date(event.date) > currentDate)
-            .map(event => ({
+            .filter((event) => new Date(event.date) > currentDate)
+            .map((event) => ({
               id: event._id,
               name: event.name,
               date: event.date,
@@ -84,22 +85,29 @@ const Dashboard = ({ user }) => {
         );
 
         // Set Quiz Scores
-        setQuizScores(dashboardData.quizScores.map(quiz => ({
-          id: quiz.id,
-          name: quiz.title,
-          score: `${quiz.score}/${quiz.maxScore}`,
-          rank: "N/A", // Rank not provided in backend
-          date: quiz.date || new Date().toISOString(), // Fallback date
-        })));
+        setQuizScores(
+          dashboardData.quizScores.map((quiz) => ({
+            id: quiz.id,
+            name: quiz.title,
+            score: `${quiz.score}/${quiz.maxScore}`,
+            rank: "N/A", // Rank not provided in backend
+            date: quiz.date || new Date().toISOString(), // Fallback date
+          }))
+        );
 
         // Set Notifications (mocked from event descriptions)
-        const mockNotifications = dashboardData.registeredEvents.flatMap(event =>
-          event.description ? [{
-            id: event.id,
-            message: `Update for ${event.name}: ${event.description}`,
-            time: new Date(event.date).toLocaleTimeString(),
-            isRead: event.status === "confirmed",
-          }] : []
+        const mockNotifications = dashboardData.registeredEvents.flatMap(
+          (event) =>
+            event.description
+              ? [
+                  {
+                    id: event.id,
+                    message: `Update for ${event.name}: ${event.description}`,
+                    time: new Date(event.date).toLocaleTimeString(),
+                    isRead: event.status === "confirmed",
+                  },
+                ]
+              : []
         );
         setNotifications(mockNotifications);
 
@@ -115,7 +123,9 @@ const Dashboard = ({ user }) => {
 
   const markAsRead = (id) => {
     setNotifications((prev) =>
-      prev.map((notif) => (notif.id === id ? { ...notif, isRead: true } : notif))
+      prev.map((notif) =>
+        notif.id === id ? { ...notif, isRead: true } : notif
+      )
     );
   };
 
@@ -135,10 +145,30 @@ const Dashboard = ({ user }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, staggerChildren: 0.1 }}
         >
-          <StatCard icon={CheckSquare} title="Registered" value={registeredEvents.length} color="hover:shadow-purple-500/20" />
-          <StatCard icon={Calendar} title="Upcoming" value={upcomingEvents.length} color="hover:shadow-purple-600/20" />
-          <StatCard icon={Award} title="Quiz Scores" value={quizScores.length} color="hover:shadow-purple-700/20" />
-          <StatCard icon={Bell} title="Alerts" value={notifications.length} color="hover:shadow-purple-800/20" />
+          <StatCard
+            icon={CheckSquare}
+            title="Registered"
+            value={registeredEvents.length}
+            color="hover:shadow-purple-500/20"
+          />
+          <StatCard
+            icon={Calendar}
+            title="Upcoming"
+            value={upcomingEvents.length}
+            color="hover:shadow-purple-600/20"
+          />
+          <StatCard
+            icon={Award}
+            title="Quiz Scores"
+            value={quizScores.length}
+            color="hover:shadow-purple-700/20"
+          />
+          <StatCard
+            icon={Bell}
+            title="Alerts"
+            value={notifications.length}
+            color="hover:shadow-purple-800/20"
+          />
         </motion.div>
 
         <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -155,12 +185,30 @@ const Dashboard = ({ user }) => {
             {activeTab === "overview" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <EventList events={upcomingEvents} title="Upcoming Events" />
-                <NotificationList notifications={notifications.slice(0, 3)} onMarkAsRead={markAsRead} title="Latest Alerts" showViewAll={notifications.length > 3} setActiveTab={setActiveTab} />
+                <NotificationList
+                  notifications={notifications.slice(0, 3)}
+                  onMarkAsRead={markAsRead}
+                  title="Latest Alerts"
+                  showViewAll={notifications.length > 3}
+                  setActiveTab={setActiveTab}
+                />
               </div>
             )}
-            {activeTab === "events" && <EventList events={registeredEvents} title="My Events" isRegistered />}
+            {activeTab === "events" && (
+              <EventList
+                events={registeredEvents}
+                title="My Events"
+                isRegistered
+              />
+            )}
             {activeTab === "quizzes" && <QuizList quizzes={quizScores} />}
-            {activeTab === "notifications" && <NotificationList notifications={notifications} onMarkAsRead={markAsRead} title="All Alerts" />}
+            {activeTab === "notifications" && (
+              <NotificationList
+                notifications={notifications}
+                onMarkAsRead={markAsRead}
+                title="All Alerts"
+              />
+            )}
           </motion.div>
         </AnimatePresence>
       </main>
