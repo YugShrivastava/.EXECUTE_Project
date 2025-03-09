@@ -9,78 +9,144 @@ import EventCreationForm from "../components/EventCreationForm";
 import QuizCreationForm from "../components/QuizCreationForm";
 import ModerationPanel from "../components/ModerationPanel";
 import AnalyticsPlaceholder from "../components/AnalyticsPlaceholder";
-import { Calendar, Users, Award, AlertTriangle, User } from "lucide-react"; // Add User icon
+import { Calendar, Users, Award, AlertTriangle, User } from "lucide-react";
 
-const OrganizerDashboard = (user) => {
+const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
   const [organizedEvents, setOrganizedEvents] = useState([]);
   const [activeTab, setActiveTab] = useState("events");
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State to toggle profile menu visibility
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true); // Added loading state
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken") || "";
-    token.length > 0 ? "" : navigate("/");
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/");
+      return;
+    }
 
-    const mockEvents = [
-      {
-        id: 1,
-        name: "Hackathon 2025",
-        date: "2025-03-15",
-        time: "09:00 AM",
-        venue: "Tech Lab",
-        status: "Upcoming",
-        registeredParticipants: [
-          { userId: "user1", role: "team leader", status: "pending" },
-          { userId: "user2", role: "participant", status: "confirmed" },
-        ],
-      },
-      {
-        id: 2,
-        name: "CodeFest 2025",
-        date: "2025-04-10",
-        time: "10:00 AM",
-        venue: "Main Hall",
-        status: "Live",
-        registeredParticipants: [
-          { userId: "user3", role: "participant", status: "confirmed" },
-          { userId: "user4", role: "team leader", status: "pending" },
-          { userId: "user5", role: "participant", status: "pending" },
-        ],
-      },
-    ];
+    const fetchOrganizerData = async () => {
+      try {
+        const userId = user._id; // Assuming user._id is available
+        const response = await fetch(`http://localhost:3000/api/users/dashboard/${userId}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-    setOrganizedEvents(mockEvents);
-  }, []);
+        if (!response.ok) {
+          throw new Error("Failed to fetch organizer data");
+        }
 
-  const handleEventCreated = (newEvent) => {
-    setOrganizedEvents((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        ...newEvent,
-        status: "Upcoming",
-        registeredParticipants: [],
-      },
-    ]);
+        const data = await response.json();
+        console.log("Organizer Data:", data);
+
+        // Map createdEvents to match the expected structure
+        const eventsResponse = await fetch("http://localhost:3000/api/events", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!eventsResponse.ok) {
+          throw new Error("Failed to fetch events data");
+        }
+
+        const allEvents = await eventsResponse.json();
+        const organizerEvents = allEvents.filter(event => 
+          event.organizer.toString() === userId
+        ).map(event => ({
+          id: event._id,
+          name: event.name,
+          date: event.date,
+          time: event.time,
+          venue: event.venue,
+          status: event.isLive ? "Live" : new Date(event.date) > new Date() ? "Upcoming" : "Past",
+          registeredParticipants: event.registeredParticipants || [],
+        }));
+
+        setOrganizedEvents(organizerEvents);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching organizer data:", error);
+        setLoading(false);
+        navigate("/"); // Redirect on error (e.g., invalid token)
+      }
+    };
+
+    fetchOrganizerData();
+  }, [user, navigate]);
+
+  const handleEventCreated = async (newEvent) => {
+    const token = localStorage.getItem("authToken");
+    try {
+      const response = await fetch("http://localhost:3000/api/events/create", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newEvent,
+          organizer: user._id, // Add organizer ID from user prop
+          registeredParticipants: [], // Initialize empty participants
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create event");
+      }
+
+      const createdEvent = await response.json();
+      setOrganizedEvents((prev) => [
+        ...prev,
+        {
+          id: createdEvent.event._id,
+          name: createdEvent.event.name,
+          date: createdEvent.event.date,
+          time: createdEvent.event.time,
+          venue: createdEvent.event.venue,
+          status: "Upcoming",
+          registeredParticipants: createdEvent.event.registeredParticipants || [],
+        },
+      ]);
+    } catch (error) {
+      console.error("Error creating event:", error);
+    }
   };
-  const unreadCount = 0; // Placeholder since notifications are not implemented for organizers
+
+  const unreadCount = 0; // Placeholder; implement notifications if needed
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken"); // Example of clearing local storage
-    navigate("/"); // Redirect to the landing page
+    localStorage.removeItem("authToken"); // Updated to match token name
+    navigate("/");
   };
 
-  // Toggle profile menu visibility
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <motion.div
+          className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col">
       <DashboardHeader unreadCount={unreadCount} />
       <main className="container mx-auto px-6 py-10 flex-1 overflow-y-auto">
-        {" "}
-        {/* Make main scrollable */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           initial={{ opacity: 0, y: 50 }}
@@ -105,7 +171,7 @@ const OrganizerDashboard = (user) => {
           <StatCard
             icon={Award}
             title="Quizzes Created"
-            value={2} // Mock value
+            value={0} // Placeholder; fetch quiz data if implemented
             color="hover:shadow-purple-700/20"
           />
           <StatCard
@@ -169,21 +235,19 @@ const OrganizerDashboard = (user) => {
         </div>
       </footer>
 
-      {/* Profile and Log Out Button */}
       <div className="absolute top-5 right-5 flex items-center">
         <button
           onClick={toggleProfileMenu}
           className="p-2 bg-purple-600 text-white rounded-full"
         >
-          <User size={24} /> {/* User Icon */}
+          <User size={24} />
         </button>
 
-        {/* Profile Menu (Dropdown) */}
         {profileMenuOpen && (
           <div className="absolute right-0 mt-2 bg-gray-800 text-white rounded-md shadow-lg">
             <div className="p-4">
               <p className="font-semibold">User Profile</p>
-              <p className="text-sm text-gray-400">User Name</p>
+              <p className="text-sm text-gray-400">{user.name || "Organizer"}</p> {/* Display user name */}
             </div>
             <div className="border-t border-gray-700">
               <button
