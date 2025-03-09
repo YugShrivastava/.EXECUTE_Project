@@ -34,7 +34,7 @@ const DashboardHeader = ({ unreadCount }) => (
           <div className="bg-white rounded-full p-2">
             <User className="h-5 w-5 text-black" />
           </div>
-          <span className="font-medium">John Doe</span>
+          <span className="font-medium">john Doe</span>
         </motion.div>
       </div>
     </div>

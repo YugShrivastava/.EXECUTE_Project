@@ -60,7 +60,6 @@ const OrganizerDashboard = () => {
       },
     ]);
   };
-
   const unreadCount = 0; // Placeholder since notifications are not implemented for organizers
 
   const handleLogout = () => {
