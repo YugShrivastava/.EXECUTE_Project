@@ -7,21 +7,12 @@ import LandingPage from "./pages/LandingPage";
 import Feedback from "./pages/Feedback";
 
 const App = () => {
-  const [user, setUser] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = () => {
       setLoading(true);
       const token = localStorage.getItem("authToken") || "";
-      if (token.length > 0) {
-        fetch("http://localhost:3000/api/auth/autho", {
-          headers: { authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.json())
-          .then((res) => setUser(res[0]))
-          .catch((err) => console.log(err));
-      } else setUser("");
       setLoading(false);
     };
 
