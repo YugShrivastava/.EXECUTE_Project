@@ -212,7 +212,7 @@ const OrganizerDashboard = ({ user }) => { // Adjusted prop destructuring
               <EventList
                 events={organizedEvents}
                 title="Your Organized Events"
-                isRegistered={false}
+                isRegistered={true}
                 onDetailsClick={(event) => console.log("Event Details:", event)}
               />
             )}

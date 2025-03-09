@@ -50,6 +50,7 @@ const EventList = ({ events, title, isRegistered, onRegister }) => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onRegister={handleRegister}
+        isRegistered={isRegistered}
       />
     </div>
   );

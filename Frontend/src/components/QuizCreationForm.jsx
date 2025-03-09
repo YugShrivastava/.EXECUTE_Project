@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const QuizCreationForm = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +7,16 @@ const QuizCreationForm = () => {
     maxScore: "",
     questions: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }],
   });
+
+  const [quizzes, setQuizzes] = useState([]);
+
+  // Load existing quizzes from localStorage on component mount
+  useEffect(() => {
+    const savedQuizzes = localStorage.getItem("quizzes");
+    if (savedQuizzes) {
+      setQuizzes(JSON.parse(savedQuizzes));
+    }
+  }, []);
 
   const handleChange = (e, index) => {
     if (index !== undefined) {
@@ -30,30 +40,34 @@ const QuizCreationForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("authToken");
-    try {
-      const response = await fetch("http://localhost:3000/api/quizzes/create", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, organizer: localStorage.getItem("userId") }), // Assuming userId is stored
-      });
-
-      if (!response.ok) throw new Error("Failed to create quiz");
-      alert("Quiz created successfully!");
-      setFormData({
-        title: "",
-        description: "",
-        maxScore: "",
-        questions: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }],
-      });
-    } catch (error) {
-      console.error("Error creating quiz:", error);
-    }
+    
+    // Create a new quiz object with a unique ID and timestamp
+    const newQuiz = {
+      ...formData,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+    };
+    
+    // Add the new quiz to the quizzes array
+    const updatedQuizzes = [...quizzes, newQuiz];
+    
+    // Save to localStorage
+    localStorage.setItem("quizzes", JSON.stringify(updatedQuizzes));
+    
+    // Update state
+    setQuizzes(updatedQuizzes);
+    
+    // Reset form
+    setFormData({
+      title: "",
+      description: "",
+      maxScore: "",
+      questions: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }],
+    });
+    
+    alert("Quiz saved to localStorage successfully!");
   };
 
   return (
@@ -137,9 +151,18 @@ const QuizCreationForm = () => {
           type="submit"
           className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg"
         >
-          Create Quiz
+          Save Quiz to LocalStorage
         </button>
       </form>
+      
+      {/* Display saved quizzes count */}
+      <div className="mt-6 text-gray-400">
+        {quizzes.length > 0 ? (
+          <p>You have {quizzes.length} quiz(es) saved in localStorage.</p>
+        ) : (
+          <p>No quizzes saved yet.</p>
+        )}
+      </div>
     </div>
   );
 };

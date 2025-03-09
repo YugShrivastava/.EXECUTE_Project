@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Clock, Users, Calendar, Tag, UserCircle } from "lucide-react";
 
-const EventDetailsModal = ({ event, isOpen, onClose, onRegister }) => {
+const EventDetailsModal = ({ event, isOpen, onClose, onRegister, isRegistered = false }) => {
   if (!isOpen || !event) return null;
 
   const formatDate = (dateString) => {
@@ -82,12 +82,12 @@ const EventDetailsModal = ({ event, isOpen, onClose, onRegister }) => {
             >
               Close
             </button>
-            <button
+            {isRegistered || <button
               onClick={() => onRegister(event._id)}
               className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
             >
               Register
-            </button>
+            </button>}
           </div>
         </div>
       </motion.div>
