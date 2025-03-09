@@ -31,11 +31,11 @@ const DashboardPage = () => {
   }
 
   if (user.role === 'organizer') {
-    return <OrganizerDashboard />;
+    return <OrganizerDashboard user={user} />;
   }
 
   return <>
-    <Dashboard />
+    <Dashboard user={user} />
   </>
 };
 

@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Bell, User } from "lucide-react";
 
-const DashboardHeader = ({ unreadCount }) => (
+const DashboardHeader = ({ unreadCount, name }) => (
   <header className="bg-gradient-to-r from-black to-purple-900 shadow-lg sticky top-0 z-10">
     <div className="container mx-auto px-6 py-4 flex justify-between items-center">
       <motion.h1
@@ -12,7 +12,7 @@ const DashboardHeader = ({ unreadCount }) => (
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        FestX Neon
+        Festify
       </motion.h1>
       <div className="flex items-center space-x-6">
         <motion.div
@@ -34,7 +34,7 @@ const DashboardHeader = ({ unreadCount }) => (
           <div className="bg-white rounded-full p-2">
             <User className="h-5 w-5 text-black" />
           </div>
-          <span className="font-medium">John Doe</span>
+          <span className="font-medium">{name}</span>
         </motion.div>
       </div>
     </div>

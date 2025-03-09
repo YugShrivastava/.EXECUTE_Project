@@ -11,7 +11,7 @@ import ModerationPanel from "../components/ModerationPanel";
 import AnalyticsPlaceholder from "../components/AnalyticsPlaceholder";
 import { Calendar, Users, Award, AlertTriangle, User } from "lucide-react"; // Add User icon
 
-const OrganizerDashboard = () => {
+const OrganizerDashboard = (user) => {
   const [organizedEvents, setOrganizedEvents] = useState([]);
   const [activeTab, setActiveTab] = useState("events");
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State to toggle profile menu visibility
