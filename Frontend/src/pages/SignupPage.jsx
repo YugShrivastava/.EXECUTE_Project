@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import ImageContainer from "../components/ImageContainer";
 import SignupForm from "../components/SignupForm";
+import { useEffect } from "react";
+
 
 const SignupPage = () => {
   const navigate = useNavigate();

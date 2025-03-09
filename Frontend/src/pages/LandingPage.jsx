@@ -31,8 +31,7 @@ const LandingPage = () => {
   );
 
   return (
-    <div className="w-screen bg-black text-white font-sans overflow-x-hidden relative">
-      
+    <div className="w-screen bg-black text-white font-sans relative">
       {/* Navigation - Transparent */}
       <nav className="fixed top-0 left-0 w-full py-6 px-8 flex justify-between items-center bg-transparent backdrop-blur-md z-50">
         <motion.div
@@ -102,7 +101,7 @@ const LandingPage = () => {
             Get Started
           </motion.button>
         </motion.div>
-        <div className="absolute w-full min-h-screen right-0 cursor-auto absolute inset-0 bottom-[-300px]">
+        <div className="absolute w-full min-h-screen right-0 inset-0 bottom-[-300px] pointer-events-auto z-0">
           <Suspense fallback={<SplineLoader />}>
             <LazySpline 
               scene="https://prod.spline.design/GEkJep5bGOa4VCCK/scene.splinecode"
