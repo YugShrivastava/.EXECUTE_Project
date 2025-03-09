@@ -1,12 +1,8 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import authService from "./appWrite/auth";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
-import Land from "./pages/LandingPage";
-import Dashboard from "./components/Dashboard";
-import OrganizerDashboard from "./components/OrganizerDashboard";
 import LandingPage from "./pages/LandingPage";
 import Feedback from "./pages/Feedback";
 
