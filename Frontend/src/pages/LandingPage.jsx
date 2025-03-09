@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import '../landing.css'
+        import Spline from '@splinetool/react-spline';
+        import '../landing.css'
 
 const scrollToSection = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -65,7 +66,7 @@ const LandingPage = () => {
         className="min-h-screen w-full flex items-center justify-start relative pt-24 px-8 md:px-16"
       >
         <motion.div
-          className="max-w-lg"
+          className="max-w-lg w-full"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
@@ -85,6 +86,9 @@ const LandingPage = () => {
             Get Started
           </motion.button>
         </motion.div>
+        <div className="absolute w-full bottom-[-220px] ">
+          <Spline scene="https://prod.spline.design/fTtGQbX3eiroyS9i/scene.splinecode" />
+        </div>
       </section>
 
       {/* About Section - Right Aligned, Gradient Background */}
