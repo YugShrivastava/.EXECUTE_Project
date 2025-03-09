@@ -23,45 +23,60 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      // Assuming your backend API is running on localhost:5000
-      // Adjust the URL accordingly
-      const response = await axios.post('http://localhost:3000/api/auth/login', {
+      // Step 1: Send login request to backend
+      const res = await axios.post('http://localhost:3000/api/auth/login', {
         email: formData.email,
         password: formData.password
       });
-      
-      if (response.data.token) {
-        // Save the token to localStorage
-        localStorage.setItem('authToken', response.data.token);
-        
-        // Set the default Authorization header for future requests
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-        
-        // Navigate to dashboard
-        navigate('/dashboard');
+
+      const data = await res.data;
+
+      console.log("Data:" ,data);
+
+      if (data.token) {
+        // Step 2: Save the token in localStorage
+        localStorage.setItem('authToken', data.token);
+
+        // Set Authorization header for future requests
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+        // Step 3: Call /autho to get user details (including the role)
+        try {
+          const userRes = await axios.get('http://localhost:3000/api/auth/autho');
+          const userResponse = userRes.data
+
+          console.log(userResponse)
+           // Contains user information
+
+          // Step 4: Check if the user role is 'organizer'
+          if (userResponse.role === 'organizer') {
+            navigate('/org-dashboard');  // Redirect to the organizer's dashboard
+          } else {
+            navigate('/');  // Redirect to the user dashboard (or another page)
+          }
+        } catch (error) {
+          setError('Failed to fetch user details. Please try again.');
+        }
       }
     } catch (error) {
+      // Step 5: Handle error during login process
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         setError(error.response.data.message || 'Login failed. Please try again.');
       } else if (error.request) {
-        // The request was made but no response was received
         setError('No response from server. Please try again later.');
       } else {
-        // Something happened in setting up the request that triggered an Error
+        console.log(error)
         setError('An unexpected error occurred. Please try again.');
       }
     } finally {
-      setLoading(false);
+      setLoading(false);  // Stop loading after the process is done
     }
   };
 
   return (
     <div className="min-h-screen min-w-screen flex bg-black">
-      {/* Left side - Login Form */}
       <div className="w-full md:w-full flex items-center justify-center p-8">
         <div className="max-w-md w-full bg-gray-900 rounded-lg shadow-lg p-8 space-y-6 border border-purple-700">
           <div className="text-center">
