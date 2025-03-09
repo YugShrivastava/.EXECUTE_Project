@@ -18,7 +18,7 @@ const App = () => {
     const checkUser = () => {
       setLoading(true);
         const token = localStorage.getItem('authToken') || '';
-        console.log(token);
+        console.log("Token", token);
         if(token.length > 0) {
         fetch('http://localhost:3000/api/auth/autho', {
           headers: {authorization: `Bearer ${token}`}
@@ -26,10 +26,10 @@ const App = () => {
         .then(res => res.json())
         .then(res => setUser(res[0]))
         .catch(err => console.log(err));
-
-        console.log(user);}
-        setUser('');
+      }
+      else setUser('');
       setLoading(false);
+      console.log('user', user);
     };
   
     checkUser();
