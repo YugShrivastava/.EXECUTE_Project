@@ -1,3 +1,5 @@
+/* landing.css */
+
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -10,6 +12,7 @@
   100% { transform: scale(1); opacity: 0.5; }
 }
 
+/* Fixed keyframes for infinite scrolling */
 @keyframes slide-right-to-left {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -22,25 +25,31 @@
 
 .animate-gradient {
   background-size: 200% 200%;
-  animation: gradient 20s ease infinite;
+  animation: gradient 15s ease infinite;
 }
 
 .animate-pulse {
   animation: pulse 3s ease-in-out infinite;
 }
 
+/* Fixed animation classes for infinite scrolling */
 .animate-slide-right-to-left {
   display: flex;
-  width: 200%;
+  width: 200%; /* Double the width to accommodate duplicated content */
   animation: slide-right-to-left 15s linear infinite;
 }
 
 .animate-slide-left-to-right {
   display: flex;
-  width: 200%;
+  width: 200%; /* Double the width to accommodate duplicated content */
   animation: slide-left-to-right 15s linear infinite;
 }
 
+/* Ensure feature cards don't shrink and maintain consistent spacing */
+.animate-slide-right-to-left > *,
+.animate-slide-left-to-right > * {
+  flex-shrink: 0;
+}
 
 /* Home Section Background Image */
 .home-bg {
@@ -67,4 +76,38 @@
 .home-bg > * {
   position: relative;
   z-index: 2;
+}
+
+/* Custom cursor styles (merged from index.css) */
+#custom-cursor {
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+#cursor-dot {
+  transition: transform 0.1s;
+}
+
+.cursor-hover {
+  width: 50px !important;
+  height: 50px !important;
+  border-color: #d946ef !important;
+  background-color: rgba(217, 70, 239, 0.1);
+}
+
+/* Make sure the Spline container doesn't interfere with buttons (merged from index.css) */
+.spline-container {
+  pointer-events: auto;
+}
+
+/* For small screens, we hide the custom cursor (merged from index.css) */
+@media (max-width: 768px) {
+  #custom-cursor, #cursor-dot {
+    display: none;
+  }
+}
+
+/* Ensure the Get Started button is always clickable (merged from index.css) */
+section#home .motion-div {
+  position: relative;
+  z-index: 20;
 }

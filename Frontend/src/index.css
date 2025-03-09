@@ -1,3 +1,5 @@
+/* index.css */
+
 @import "tailwindcss";
 
 html, body {
@@ -26,96 +28,4 @@ body {
 .app-container {
   min-height: 100vh;
   background-color: #111827; /* Dark background color - match with the body */
-
-}
-
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  animation: gradient 15s ease infinite;
-  background-size: 200% 200%;
-}
-
-/* landing.css - Add these styles to your existing CSS file */
-/* Animation keyframes */
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient {
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-/* Sliding animations for feature cards */
-@keyframes slide-left-to-right {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes slide-right-to-left {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.animate-slide-left-to-right {
-  animation: slide-left-to-right 15s linear infinite;
-}
-
-.animate-slide-right-to-left {
-  animation: slide-right-to-left 15s linear infinite;
-}
-
-/* Custom cursor styles */
-#custom-cursor {
-  transition: width 0.3s, height 0.3s, border-color 0.3s;
-}
-
-#cursor-dot {
-  transition: transform 0.1s;
-}
-
-.cursor-hover {
-  width: 50px !important;
-  height: 50px !important;
-  border-color: #d946ef !important;
-  background-color: rgba(217, 70, 239, 0.1);
-}
-
-/* Make sure the Spline container doesn't interfere with buttons */
-.spline-container {
-  pointer-events: auto;
-}
-
-/* For small screens, we hide the custom cursor */
-@media (max-width: 768px) {
-  #custom-cursor, #cursor-dot {
-    display: none;
-  }
-}
-
-/* Ensure the Get Started button is always clickable */
-section#home .motion-div {
-  position: relative;
-  z-index: 20;
 }

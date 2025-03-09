@@ -171,11 +171,8 @@ const LandingPage = () => {
         <div className="w-full space-y-12">
           {/* Top Row: Right to Left */}
           <div className="w-full overflow-hidden">
-            <motion.div
+            <div
               className="flex gap-8 animate-slide-right-to-left"
-              initial={{ x: "100%" }}
-              animate={{ x: "-100%" }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             >
               {[
                 {
@@ -224,15 +221,12 @@ const LandingPage = () => {
                   <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
           {/* Bottom Row: Left to Right */}
           <div className="w-full overflow-hidden">
-            <motion.div
+            <div
               className="flex gap-8 animate-slide-left-to-right"
-              initial={{ x: "-100%" }}
-              animate={{ x: "100%" }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             >
               {[
                 {
@@ -281,7 +275,7 @@ const LandingPage = () => {
                   <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
