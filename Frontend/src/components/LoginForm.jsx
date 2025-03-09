@@ -51,10 +51,10 @@ const LoginForm = () => {
            // Contains user information
 
           // Step 4: Check if the user role is 'organizer'
-          if (userResponse.role === 'organizer') {
+          if (userResponse[0].role === 'organizer') {
             navigate('/org-dashboard');  // Redirect to the organizer's dashboard
           } else {
-            navigate('/');  // Redirect to the user dashboard (or another page)
+            navigate('/dashboard');  // Redirect to the user dashboard (or another page)
           }
         } catch (error) {
           setError('Failed to fetch user details. Please try again.');
