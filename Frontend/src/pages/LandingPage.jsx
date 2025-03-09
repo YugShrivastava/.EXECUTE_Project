@@ -31,7 +31,8 @@ const LandingPage = () => {
   );
 
   return (
-    <div className="w-screen bg-black text-white font-sans relative">
+    <div className="w-screen bg-black text-white font-sans overflow-x-hidden relative">
+      
       {/* Navigation - Transparent */}
       <nav className="fixed top-0 left-0 w-full py-6 px-8 flex justify-between items-center bg-transparent backdrop-blur-md z-50">
         <motion.div
@@ -113,29 +114,45 @@ const LandingPage = () => {
       </section>
 
       {/* About Section - Right Aligned, Gradient Background */}
-      <section
-        id="about"
-        className="min-h-screen w-full flex items-center justify-end relative px-8 md:px-16 bg-transparent"
-      >
-        <motion.div
-          className="max-w-lg text-right z-10"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-8 tracking-tight drop-shadow-lg">
-            About Us
-          </h2>
-          <p className="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
-            Festify redefines college fest management with a seamless, all-in-one platform. We tackle the chaos of registrations, scheduling, and coordination, turning challenges into opportunities.
-          </p>
-          <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-            Our sleek interface, powerful tools, and interactive features connect organizers and attendees like never before. From cultural spectacles to tech showdowns, Festify ensures your event shines.
-          </p>
-        </motion.div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-purple-900/20 to-transparent" />
-      </section>
+    
+<section id="about" className="min-h-screen w-full flex items-center justify-between relative px-8 md:px-16 bg-transparent">
+  {/* Left side - Image */}
+  <motion.div 
+    className="hidden md:block w-2/5 z-10"
+    initial={{ opacity: 0, x: -50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+  >
+    <img 
+      src="https://img.freepik.com/free-vector/silhouettes-party-crowd-low-poly-background_1048-6425.jpg?t=st=1741506029~exp=1741509629~hmac=70b7d9eb9161deb89bab5fa9aa160e8c6091821979367d8cbeb4eb2f2ccc3cbe&w=1480" 
+      alt="College fest celebration" 
+      className="rounded-t-full shadow-5xl ml-4"
+    />
+  </motion.div>
+
+  {/* Right side - Text content */}
+  <motion.div 
+    className="max-w-lg text-right z-10 md:w-1/2" 
+    initial={{ opacity: 0, x: 50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+  >
+    <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-8 tracking-tight drop-shadow-lg">
+      About Us
+    </h2>
+    <p className="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+      Festify redefines college fest management with a seamless, all-in-one platform. We tackle the chaos of registrations, scheduling, and coordination, turning challenges into opportunities.
+    </p>
+    <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+      Our sleek interface, powerful tools, and interactive features connect organizers and attendees like never before. From cultural spectacles to tech showdowns, Festify ensures your event shines.
+    </p>
+  </motion.div>
+
+  {/* Gradient overlay at bottom */}
+  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-purple-900/20 to-transparent" />
+</section>
 
       {/* Features Section - Two Rows of Taller Sliding Cards */}
       <section
