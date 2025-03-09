@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/dashboard/:userId", async (req, res) => {
     try {
         const { userId } = req.params; 
+        console.log(userId);
         const user = await User.findById(userId)
             .populate({
                 path: "registeredEvents.eventId",
