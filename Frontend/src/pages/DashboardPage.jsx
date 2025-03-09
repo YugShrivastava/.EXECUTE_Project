@@ -1,23 +1,42 @@
 import { useNavigate } from "react-router-dom";
-import authService from "../appWrite/auth";
-import EventPage from "./EventPage";
+import OrganizerDashboard from '../components/OrganizerDashboard'
+import { useEffect, useState } from "react";
+import Dashboard from "./Dashboard";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);  // Initialize as null
 
-  const handleLogout = async () => {
-    await authService.logoutUser();
-    navigate("/login");
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('authToken') || "";
+    
+    if (!token) {
+      navigate('/');
+      return;
+    }
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-      <p className="mt-2">You are logged in.</p>
-      <button onClick={handleLogout} className="mt-6 bg-red-500 px-4 py-2 rounded">Logout</button>
-      <EventPage/>
-    </div>
-  );
+    fetch('http://localhost:3000/api/auth/autho', {
+      headers: { authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(res => {
+      setUser(res);
+      console.log("User data:", res);
+    })
+    .catch(err => console.error("Error fetching user:", err));
+  }, [navigate]);
+
+  if (!user) {
+    return <p>Loading...</p>;  // Show loading state while fetching
+  }
+
+  if (user.role === 'organizer') {
+    return <OrganizerDashboard />;
+  }
+
+  return <>
+    <Dashboard />
+  </>
 };
 
 export default DashboardPage;

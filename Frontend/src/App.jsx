@@ -18,7 +18,6 @@ const App = () => {
     const checkUser = () => {
       setLoading(true);
         const token = localStorage.getItem('authToken') || '';
-        console.log("Token", token);
         if(token.length > 0) {
         fetch('http://localhost:3000/api/auth/autho', {
           headers: {authorization: `Bearer ${token}`}
@@ -29,7 +28,6 @@ const App = () => {
       }
       else setUser('');
       setLoading(false);
-      console.log('user', user);
     };
   
     checkUser();
@@ -43,8 +41,7 @@ const App = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage /> } />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/org-dashboard" element={<OrganizerDashboard />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/feedback" element={<Feedback/>} />
     </Routes>
   );
