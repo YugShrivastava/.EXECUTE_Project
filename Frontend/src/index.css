@@ -4,6 +4,29 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background-color: #111827; /* Dark background color - adjust to match your site's background */
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Prevent white space from appearing when scrolling */
+.app-container {
+  min-height: 100vh;
+  background-color: #111827; /* Dark background color - match with the body */
+
 }
 
 @keyframes gradient {
@@ -11,12 +34,13 @@ html, body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
 .animate-gradient {
   animation: gradient 15s ease infinite;
   background-size: 200% 200%;
 }
-/* landing.css - Add these styles to your existing CSS file */
 
+/* landing.css - Add these styles to your existing CSS file */
 /* Animation keyframes */
 @keyframes gradient {
   0% {
