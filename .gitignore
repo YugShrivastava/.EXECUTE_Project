@@ -2,3 +2,5 @@
 /Frontend/node_modules/
 /node_modules/
 .env.*
+/ml/sentimentAnalysis/app/model (2).pkl
+/ml/sentimentAnalysis/app/tokenizer (2).pkl
