@@ -17,7 +17,18 @@ const App = () => {
   useEffect(() => {
     const checkUser = () => {
       setLoading(true);
-      setUser(() => localStorage.getItem('authToken') || '');
+        const token = localStorage.getItem('authToken') || '';
+        console.log(token);
+        if(token.length > 0) {
+        fetch('http://localhost:3000/api/auth/autho', {
+          headers: {authorization: `Bearer ${token}`}
+        })
+        .then(res => res.json())
+        .then(res => setUser(res[0]))
+        .catch(err => console.log(err));
+
+        console.log(user);}
+        setUser('');
       setLoading(false);
     };
   

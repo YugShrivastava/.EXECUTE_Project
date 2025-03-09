@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-        import Spline from '@splinetool/react-spline';
-        import '../landing.css'
+import Spline from '@splinetool/react-spline';
+import '../landing.css'
 
 const scrollToSection = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -12,6 +12,15 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const handleSubmit = () => {
     navigate('/login');
+  };
+  
+  // State to track if Spline is loaded
+  const [splineLoaded, setSplineLoaded] = useState(false);
+  
+  // Handle Spline load event
+  const handleSplineLoad = () => {
+    setSplineLoaded(true);
+    console.log("Spline scene loaded successfully");
   };
 
   return (
@@ -60,13 +69,17 @@ const LandingPage = () => {
         </div>
       </div>
 
+      {/* Custom Mouse Cursor Effect */}
+      <div id="custom-cursor" className="fixed w-8 h-8 rounded-full border-2 border-purple-500 pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block"></div>
+      <div id="cursor-dot" className="fixed w-2 h-2 bg-white rounded-full pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
+
       {/* Home Section - Left Aligned, Full Width */}
       <section
         id="home"
         className="min-h-screen w-full flex items-center justify-start relative pt-24 px-8 md:px-16"
       >
         <motion.div
-          className="max-w-lg w-full"
+          className="max-w-lg w-full z-10" /* Increased z-index to ensure it's above the 3D element */
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
@@ -78,7 +91,7 @@ const LandingPage = () => {
             The Ultimate College Fest Platform—Simplify Management, Amplify Engagement.
           </p>
           <motion.button
-            className="bg-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+            className="bg-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50 relative z-20" /* Added relative positioning and z-index */
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleSubmit}
@@ -86,8 +99,14 @@ const LandingPage = () => {
             Get Started
           </motion.button>
         </motion.div>
-        <div className="absolute w-full bottom-[-220px] ">
-          <Spline scene="https://prod.spline.design/fTtGQbX3eiroyS9i/scene.splinecode" />
+        
+        {/* 3D Component Container with pointer-events-none for the container but not the Spline */}
+        <div className="absolute w-full left-0 bottom-[-250px] pointer-events-auto">
+          <Spline 
+            scene="https://prod.spline.design/fTtGQbX3eiroyS9i/scene.splinecode" 
+            onLoad={handleSplineLoad}
+            className="spline-container"
+          />
         </div>
       </section>
 
@@ -308,6 +327,34 @@ const LandingPage = () => {
           </p>
         </div>
       </footer>
+      
+      {/* Script for Custom Cursor Effect */}
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.getElementById('custom-cursor');
+            const cursorDot = document.getElementById('cursor-dot');
+            
+            document.addEventListener('mousemove', function(e) {
+              cursor.style.left = e.clientX + 'px';
+              cursor.style.top = e.clientY + 'px';
+              cursorDot.style.left = e.clientX + 'px';
+              cursorDot.style.top = e.clientY + 'px';
+            });
+            
+            // Add hover effect on interactive elements
+            const interactiveElements = document.querySelectorAll('button, a, input, textarea, .spline-container');
+            interactiveElements.forEach(el => {
+              el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover');
+              });
+              el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover');
+              });
+            });
+          });
+        `
+      }} />
     </div>
   );
 };

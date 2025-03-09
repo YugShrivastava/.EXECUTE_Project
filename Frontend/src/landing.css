@@ -41,9 +41,6 @@
   animation: slide-left-to-right 15s linear infinite;
 }
 
-.shadow-neumorphic {
-  box-shadow: 5px 5px 15px #1a1a1a, -5px -5px 15px #2a2a2a;
-}
 
 /* Home Section Background Image */
 .home-bg {
