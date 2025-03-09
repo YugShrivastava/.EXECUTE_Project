@@ -1,6 +1,6 @@
-// frontend/src/pages/OrganizerDashboard.jsx
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import DashboardHeader from "../components/DashboardHeader";
 import StatCard from "../components/StatCard";
 import TabNavigation from "../components/TabNavigation";
@@ -9,14 +9,15 @@ import EventCreationForm from "../components/EventCreationForm";
 import QuizCreationForm from "../components/QuizCreationForm";
 import ModerationPanel from "../components/ModerationPanel";
 import AnalyticsPlaceholder from "../components/AnalyticsPlaceholder";
-import { Calendar, Users, Award, AlertTriangle } from "lucide-react";
+import { Calendar, Users, Award, AlertTriangle, User } from "lucide-react"; // Add User icon
 
 const OrganizerDashboard = () => {
   const [organizedEvents, setOrganizedEvents] = useState([]);
   const [activeTab, setActiveTab] = useState("events");
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State to toggle profile menu visibility
+  const navigate = useNavigate();  // Initialize the navigate function
 
   useEffect(() => {
-    // Mock data for organized events
     const mockEvents = [
       {
         id: 1,
@@ -49,7 +50,6 @@ const OrganizerDashboard = () => {
   }, []);
 
   const handleEventCreated = (newEvent) => {
-    // Mock event creation by adding to the state
     setOrganizedEvents((prev) => [
       ...prev,
       {
@@ -63,10 +63,20 @@ const OrganizerDashboard = () => {
 
   const unreadCount = 0; // Placeholder since notifications are not implemented for organizers
 
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");  // Example of clearing local storage
+    navigate("/"); // Redirect to the landing page
+  };
+
+  // Toggle profile menu visibility
+  const toggleProfileMenu = () => {
+    setProfileMenuOpen(!profileMenuOpen);
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
+    <div className="min-h-screen bg-black text-white font-sans flex flex-col">
       <DashboardHeader unreadCount={unreadCount} />
-      <main className="container mx-auto px-6 py-10">
+      <main className="container mx-auto px-6 py-10 flex-1 overflow-y-auto"> {/* Make main scrollable */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           initial={{ opacity: 0, y: 50 }}
@@ -139,6 +149,31 @@ const OrganizerDashboard = () => {
           </p>
         </div>
       </footer>
+
+      {/* Profile and Log Out Button */}
+      <div className="absolute top-5 right-5 flex items-center">
+        <button onClick={toggleProfileMenu} className="p-2 bg-purple-600 text-white rounded-full">
+          <User size={24} /> {/* User Icon */}
+        </button>
+
+        {/* Profile Menu (Dropdown) */}
+        {profileMenuOpen && (
+          <div className="absolute right-0 mt-2 bg-gray-800 text-white rounded-md shadow-lg">
+            <div className="p-4">
+              <p className="font-semibold">User Profile</p>
+              <p className="text-sm text-gray-400">User Name</p>
+            </div>
+            <div className="border-t border-gray-700">
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-700"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

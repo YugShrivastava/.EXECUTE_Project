@@ -8,6 +8,7 @@ import Land from './pages/LandingPage';
 import Dashboard from "./pages/Dashboard";
 import OrganizerDashboard from "./components/OrganizerDashboard";
 import LandingPage from "./pages/LandingPage";
+import Feedback from "./pages/Feedback";
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -33,6 +34,7 @@ const App = () => {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/org-dashboard" element={<OrganizerDashboard />} />
+      <Route path="/feedback" element={<Feedback/>} />
     </Routes>
   );
 };
