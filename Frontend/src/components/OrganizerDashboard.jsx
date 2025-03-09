@@ -15,9 +15,12 @@ const OrganizerDashboard = () => {
   const [organizedEvents, setOrganizedEvents] = useState([]);
   const [activeTab, setActiveTab] = useState("events");
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State to toggle profile menu visibility
-  const navigate = useNavigate();  // Initialize the navigate function
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken") || "";
+    token.length > 0 ? "" : navigate("/");
+
     const mockEvents = [
       {
         id: 1,
@@ -63,7 +66,7 @@ const OrganizerDashboard = () => {
   const unreadCount = 0; // Placeholder since notifications are not implemented for organizers
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken");  // Example of clearing local storage
+    localStorage.removeItem("userToken"); // Example of clearing local storage
     navigate("/"); // Redirect to the landing page
   };
 
@@ -75,7 +78,9 @@ const OrganizerDashboard = () => {
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col">
       <DashboardHeader unreadCount={unreadCount} />
-      <main className="container mx-auto px-6 py-10 flex-1 overflow-y-auto"> {/* Make main scrollable */}
+      <main className="container mx-auto px-6 py-10 flex-1 overflow-y-auto">
+        {" "}
+        {/* Make main scrollable */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           initial={{ opacity: 0, y: 50 }}
@@ -91,7 +96,10 @@ const OrganizerDashboard = () => {
           <StatCard
             icon={Users}
             title="Total Participants"
-            value={organizedEvents.reduce((acc, event) => acc + event.registeredParticipants.length, 0)}
+            value={organizedEvents.reduce(
+              (acc, event) => acc + event.registeredParticipants.length,
+              0
+            )}
             color="hover:shadow-purple-600/20"
           />
           <StatCard
@@ -104,19 +112,27 @@ const OrganizerDashboard = () => {
             icon={AlertTriangle}
             title="Pending Approvals"
             value={organizedEvents.reduce(
-              (acc, event) => acc + event.registeredParticipants.filter((p) => p.status === "pending").length,
+              (acc, event) =>
+                acc +
+                event.registeredParticipants.filter(
+                  (p) => p.status === "pending"
+                ).length,
               0
             )}
             color="hover:shadow-purple-800/20"
           />
         </motion.div>
-
         <TabNavigation
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          tabs={["events", "createEvent", "createQuiz", "moderation", "analytics"]}
+          tabs={[
+            "events",
+            "createEvent",
+            "createQuiz",
+            "moderation",
+            "analytics",
+          ]}
         />
-
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -134,9 +150,13 @@ const OrganizerDashboard = () => {
                 onDetailsClick={(event) => console.log("Event Details:", event)}
               />
             )}
-            {activeTab === "createEvent" && <EventCreationForm onEventCreated={handleEventCreated} />}
+            {activeTab === "createEvent" && (
+              <EventCreationForm onEventCreated={handleEventCreated} />
+            )}
             {activeTab === "createQuiz" && <QuizCreationForm />}
-            {activeTab === "moderation" && <ModerationPanel events={organizedEvents} />}
+            {activeTab === "moderation" && (
+              <ModerationPanel events={organizedEvents} />
+            )}
             {activeTab === "analytics" && <AnalyticsPlaceholder />}
           </motion.div>
         </AnimatePresence>
@@ -151,7 +171,10 @@ const OrganizerDashboard = () => {
 
       {/* Profile and Log Out Button */}
       <div className="absolute top-5 right-5 flex items-center">
-        <button onClick={toggleProfileMenu} className="p-2 bg-purple-600 text-white rounded-full">
+        <button
+          onClick={toggleProfileMenu}
+          className="p-2 bg-purple-600 text-white rounded-full"
+        >
           <User size={24} /> {/* User Icon */}
         </button>
 

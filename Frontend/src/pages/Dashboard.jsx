@@ -433,6 +433,7 @@ import {
   Award,
   Bell,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -442,7 +443,10 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   useEffect(() => {
+    const token = localStorage.getItem('authToken') || '';
+    token.length > 0 ? '' : navigate('/');
     setTimeout(() => {
       setUpcomingEvents([
         { id: 1, name: "Hackathon 2025", date: "2025-03-15", time: "09:00 AM", venue: "Tech Lab" },
