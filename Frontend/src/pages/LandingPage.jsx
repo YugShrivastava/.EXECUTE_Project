@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import '../landing.css'
+import { lazy } from "react";
+import '../landing.css';
+
+// Lazy load Spline component
+const LazySpline = lazy(() => import('@splinetool/react-spline'));
 
 const scrollToSection = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -9,9 +13,22 @@ const scrollToSection = (id) => {
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [splineLoaded, setSplineLoaded] = useState(false);
+  
   const handleSubmit = () => {
     navigate('/login');
   };
+
+  const handleSplineLoad = () => {
+    setSplineLoaded(true);
+  };
+
+  // Spline loading component
+  const SplineLoader = () => (
+    <div className="absolute inset-0 flex items-center justify-center bg-purple-900/20 rounded-lg">
+      <div className="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 
   return (
     <div className="w-screen bg-black text-white font-sans overflow-x-hidden relative">
@@ -31,7 +48,7 @@ const LandingPage = () => {
             <motion.button
               key={section}
               onClick={() => scrollToSection(section)}
-              className="text-gray-200 hover:text-purple-300 transition-all duration-300 px-4 py-2 rounded-full hover:bg-purple-900/30 hover:shadow-md"
+              className="text-gray-200 hover:text-purple-300 transition-all duration-300 px-4 py-2 rounded-full hover:bg-purple-900/30 hover:shadow-md cursor-pointer"
               whileHover={{ scale: 1.1 }}
             >
               {section.charAt(0).toUpperCase() + section.slice(1)}
@@ -44,7 +61,7 @@ const LandingPage = () => {
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute w-full h-full bg-gradient-to-br from-black via-purple-950/70 to-purple-900/50 animate-gradient" />
         <div className="absolute inset-0">
-          {[...Array(60)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <div
               key={i}
               className="absolute w-2 h-2 bg-purple-500 rounded-full opacity-50 animate-pulse"
@@ -65,19 +82,19 @@ const LandingPage = () => {
         className="min-h-screen w-full flex items-center justify-start relative pt-24 px-8 md:px-16"
       >
         <motion.div
-          className="max-w-lg"
+          className="max-w-lg w-full z-10"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold text-purple-400 tracking-tight leading-tight mb-6 drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-6 drop-shadow-lg">
             Festify
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
             The Ultimate College Fest Platform—Simplify Management, Amplify Engagement.
           </p>
           <motion.button
-            className="bg-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+            className="bg-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleSubmit}
@@ -85,6 +102,15 @@ const LandingPage = () => {
             Get Started
           </motion.button>
         </motion.div>
+        <div className="absolute w-full min-h-screen right-0 cursor-auto absolute inset-0 bottom-[-300px]">
+          <Suspense fallback={<SplineLoader />}>
+            <LazySpline 
+              scene="https://prod.spline.design/GEkJep5bGOa4VCCK/scene.splinecode"
+              onLoad={handleSplineLoad}
+              className="pointer-events-auto"
+            />
+          </Suspense>
+        </div>
       </section>
 
       {/* About Section - Right Aligned, Gradient Background */}
@@ -93,7 +119,7 @@ const LandingPage = () => {
         className="min-h-screen w-full flex items-center justify-end relative px-8 md:px-16 bg-transparent"
       >
         <motion.div
-          className="max-w-lg text-right"
+          className="max-w-lg text-right z-10"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -151,7 +177,7 @@ const LandingPage = () => {
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
@@ -175,7 +201,7 @@ const LandingPage = () => {
               ].map((feature, index) => (
                 <motion.div
                   key={`top-duplicate-${index}`}
-                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
@@ -208,7 +234,7 @@ const LandingPage = () => {
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
@@ -232,7 +258,7 @@ const LandingPage = () => {
               ].map((feature, index) => (
                 <motion.div
                   key={`bottom-duplicate-${index}`}
-                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between"
+                  className="min-w-[300px] h-64 bg-purple-900/10 p-8 rounded-2xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex flex-col justify-between cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
@@ -265,7 +291,7 @@ const LandingPage = () => {
               <input
                 type="text"
                 placeholder="Enter your name"
-                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30 cursor-text"
               />
             </div>
             <div>
@@ -273,7 +299,7 @@ const LandingPage = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30 cursor-text"
               />
             </div>
             <div>
@@ -281,12 +307,12 @@ const LandingPage = () => {
               <textarea
                 placeholder="Enter your message"
                 rows="6"
-                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30"
+                className="w-full p-4 bg-black/70 text-white border border-purple-600/50 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 placeholder-gray-500 shadow-md hover:shadow-purple-400/30 cursor-text"
               />
             </div>
             <motion.button
               type="submit"
-              className="w-full bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+              className="w-full bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/50 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

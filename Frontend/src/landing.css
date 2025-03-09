@@ -1,10 +1,3 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden; /* Prevents horizontal overflow */
-}
-
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -19,12 +12,12 @@ html, body {
 
 @keyframes slide-right-to-left {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Half the total width for seamless looping */
+  100% { transform: translateX(-50%); }
 }
 
 @keyframes slide-left-to-right {
   0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); } /* Reverse for left-to-right */
+  100% { transform: translateX(0); }
 }
 
 .animate-gradient {
@@ -38,12 +31,40 @@ html, body {
 
 .animate-slide-right-to-left {
   display: flex;
-  width: 200%; /* Double the width for looping */
+  width: 200%;
   animation: slide-right-to-left 15s linear infinite;
 }
 
 .animate-slide-left-to-right {
   display: flex;
-  width: 200%; /* Double the width for looping */
+  width: 200%;
   animation: slide-left-to-right 15s linear infinite;
+}
+
+
+/* Home Section Background Image */
+.home-bg {
+  background-image: url('/bg-image.jpeg'); /* Path assumes public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Optional: Add an overlay to improve text readability */
+.home-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay for contrast */
+  z-index: 1;
+}
+
+/* Ensure content stays above the overlay */
+.home-bg > * {
+  position: relative;
+  z-index: 2;
 }
