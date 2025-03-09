@@ -18,15 +18,15 @@ Auth.post("/register", async (req, res) => {
 
 Auth.post("/login", async (req,res)=> {
     try {
-        console.log(req.body);
-        const user = await User.find({...req.body})
+        const {email,password} = req.body;
+        const user = await User.find({email: email, password: password})
 
         if(user.length == 0){
             res.status(400).json({message: "user not found"})
             return;
         }
-
-        const JWTtoken = jwt.sign({...req.body}, secret_key, { expiresIn: '1d' });
+        console.log(user[0])
+        const JWTtoken = jwt.sign({user: user[0]}, secret_key, { expiresIn: '1d' });
 
         res.status(200).json({token: JWTtoken})
 
