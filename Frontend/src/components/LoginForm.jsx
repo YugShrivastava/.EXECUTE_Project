@@ -51,7 +51,8 @@ const LoginForm = () => {
            // Contains user information
 
           // Step 4: Check if the user role is 'organizer'
-          if (userResponse[0].role === 'organizer') {
+          console.log(userResponse);
+          if (userResponse.role === 'organizer') {
             navigate('/org-dashboard');  // Redirect to the organizer's dashboard
           } else {
             navigate('/dashboard');  // Redirect to the user dashboard (or another page)
